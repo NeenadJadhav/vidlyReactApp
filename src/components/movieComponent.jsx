@@ -8,11 +8,19 @@ import { getGenres } from "../services/fakeGenreService";
 
 class Movies extends Component {
   state = {
-    movies: getMovies(),
-    genres: getGenres(),
+    movies: [],
+    genres: [],
     pageSize: 4,
     currentPage: 1,
+    selectedGenre: "Action",
   };
+
+  componentDidMount() {
+    this.setState({
+      movies: getMovies(),
+      genres: getGenres(),
+    });
+  }
 
   handleDelete = (movie) => {
     const newMovies = this.state.movies.filter((m) => m._id !== movie._id);
@@ -38,9 +46,9 @@ class Movies extends Component {
     });
   };
 
-  handleGenreChange = (genreName) => {
+  handleGenreSelect = (genreName) => {
     this.setState({
-      currentGenre: genreName,
+      selectedGenre: genreName,
     });
   };
 
@@ -61,9 +69,9 @@ class Movies extends Component {
         <div className="row mt-4">
           <div className="col-2 ml-2">
             <ListGroup
-              currentGenre={this.state.currentGenre}
-              genreList={this.state.genres}
-              onGenreChange={this.handleGenreChange}
+              selectedItem={this.state.selectedGenre}
+              itemList={this.state.genres}
+              onItemSelect={this.handleGenreSelect}
             />
           </div>
           <div className="col mr-2">

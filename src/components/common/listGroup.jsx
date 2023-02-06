@@ -2,29 +2,37 @@ import React, { Component } from "react";
 
 //Input: Name of the genre
 //Output: onClick event
+
+//textProperty and valueProperty are only needed to make this component reusable
 const ListGroup = (props) => {
-  const { currentGenre, genreList, onGenreChange } = props;
+  const { selectedItem, itemList, onItemSelect, textProperty, valueProperty } =
+    props;
 
   const isActive = (name) => {
     let className = "list-group-item ";
-    if (name === currentGenre) className += "active";
+    if (name === selectedItem) className += "active";
     return className;
   };
 
   return (
     <ul className="list-group">
-      {genreList.map((genre) => (
+      {itemList.map((item) => (
         <li
           style={{ cursor: "pointer" }}
-          key={genre._id}
-          className={isActive(genre.name)}
-          onClick={() => onGenreChange(genre.name)}
+          key={item[valueProperty]}
+          className={isActive(item[textProperty])}
+          onClick={() => onItemSelect(item[textProperty])}
         >
-          {genre.name}
+          {item[textProperty]}
         </li>
       ))}
     </ul>
   );
+};
+
+ListGroup.defaultProps = {
+  textProperty: "name",
+  valueProperty: "_id",
 };
 
 export default ListGroup;
